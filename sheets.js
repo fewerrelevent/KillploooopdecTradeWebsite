@@ -1,3 +1,4 @@
+cat > /home/claude/arcane-odyssey-shop-v2/sheets.js << 'EOF'
 /**
  * sheets.js — Fetches and parses item data from a published Google Sheet CSV.
  * Uses a Cloudflare Pages Function (/proxy) to avoid CORS issues.
@@ -50,6 +51,8 @@ function rowsToItems(rows) {
   const iPriceUnit  = col("priceunit");
   const iNote       = col("note");
   const iTradeWants = col("tradewants");
+  const iAmount     = col("amount");
+  const iImage      = col("image");
 
   function cell(row, idx) {
     return (idx >= 0 && idx < row.length) ? (row[idx] || "").trim() : "";
@@ -74,6 +77,9 @@ function rowsToItems(rows) {
     const rawPrice = cell(row, iPrice).replace(/[^0-9.]/g, "");
     const price = rawPrice ? parseFloat(rawPrice) : null;
 
+    const rawAmount = cell(row, iAmount).replace(/[^0-9]/g, "");
+    const amount = rawAmount ? parseInt(rawAmount, 10) : null;
+
     const tradeWantsRaw = cell(row, iTradeWants);
     const tradeWants = tradeWantsRaw
       ? tradeWantsRaw.split(",").map(s => s.trim()).filter(Boolean)
@@ -87,6 +93,8 @@ function rowsToItems(rows) {
       priceUnit: cell(row, iPriceUnit) || "Galleons",
       note:      cell(row, iNote),
       tradeWants,
+      amount,
+      image:     cell(row, iImage),
     };
 
     console.log(`[Bazaar] Row ${r} parsed OK:`, item);
@@ -98,7 +106,6 @@ function rowsToItems(rows) {
 }
 
 async function fetchItemsFromSheet(csvUrl) {
-  // Use our own Cloudflare Pages Function proxy — no CORS issues
   const proxyUrl = `/proxy?url=${encodeURIComponent(csvUrl)}`;
   console.log("[Bazaar] Fetching via /proxy");
 
