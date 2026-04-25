@@ -248,7 +248,7 @@ main {
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 1.4rem 1.5rem 1.25rem;
-  cursor: pointer;
+  cursor: default;
   transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease, background 0.2s ease;
   animation: cardIn 0.4s ease both;
   position: relative;
