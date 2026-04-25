@@ -1,4 +1,3 @@
-
 /**
  * app.js — The Arcane Bazaar logic
  * Fetches items from Google Sheets, handles filtering, search, modals.
@@ -153,7 +152,6 @@
         </div>
       `;
 
-      card.addEventListener("click", () => openModal(item));
       grid.appendChild(card);
     });
   }
