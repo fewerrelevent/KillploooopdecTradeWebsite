@@ -1,4 +1,4 @@
-cat > /home/claude/arcane-odyssey-shop-v2/sheets.js << 'EOF'
+
 /**
  * sheets.js — Fetches and parses item data from a published Google Sheet CSV.
  * Uses a Cloudflare Pages Function (/proxy) to avoid CORS issues.
