@@ -83,7 +83,10 @@
 
   function getFiltered() {
     return ITEMS.filter(item => {
-      const matchType   = activeFilter === "all" || item.type === activeFilter;
+      const hasBothPrices = item.price != null && item.buyPrice != null;
+      const matchType = activeFilter === "all"
+        || item.type === activeFilter
+        || (hasBothPrices && (activeFilter === "selling" || activeFilter === "buying"));
       const q           = searchQuery.toLowerCase();
       const matchSearch = !q
         || item.name.toLowerCase().includes(q)
