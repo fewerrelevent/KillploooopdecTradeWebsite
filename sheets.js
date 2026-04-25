@@ -1,4 +1,3 @@
-
 /**
  * sheets.js — Fetches and parses item data from a published Google Sheet CSV.
  * Uses a Cloudflare Pages Function (/proxy) to avoid CORS issues.
@@ -53,6 +52,7 @@ function rowsToItems(rows) {
   const iTradeWants = col("tradewants");
   const iAmount     = col("amount");
   const iImage      = col("image");
+  const iBuyPrice   = col("buyprice");
 
   function cell(row, idx) {
     return (idx >= 0 && idx < row.length) ? (row[idx] || "").trim() : "";
@@ -74,8 +74,11 @@ function rowsToItems(rows) {
       continue;
     }
 
-    const rawPrice = cell(row, iPrice).replace(/[^0-9.]/g, "");
-    const price = rawPrice ? parseFloat(rawPrice) : null;
+    const rawPrice    = cell(row, iPrice).replace(/[^0-9.]/g, "");
+    const price       = rawPrice ? parseFloat(rawPrice) : null;
+
+    const rawBuyPrice = cell(row, iBuyPrice).replace(/[^0-9.]/g, "");
+    const buyPrice    = rawBuyPrice ? parseFloat(rawBuyPrice) : null;
 
     const rawAmount = cell(row, iAmount).replace(/[^0-9]/g, "");
     const amount = rawAmount ? parseInt(rawAmount, 10) : null;
@@ -90,6 +93,7 @@ function rowsToItems(rows) {
       type,
       category:  cell(row, iCategory)  || "Miscellaneous",
       price,
+      buyPrice,
       priceUnit: cell(row, iPriceUnit) || "Galleons",
       note:      cell(row, iNote),
       tradeWants,
