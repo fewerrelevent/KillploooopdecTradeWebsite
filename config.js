@@ -40,7 +40,7 @@ const CONFIG = {
   SHOP_NAME: "The Kill Ploop Deck",
 
   // Subtitle shown under the shop name
-  SHOP_SUBTITLE: "Items · Trades · Prices",
+  SHOP_SUBTITLE: "ALL prices are negotiable, PLEASE DM ME (userID:785554241083277312)",
 
   // Contact line shown in the footer
   CONTACT_NOTE: "To inquire, reach out in-game or via Discord. Username: Killploooopdec, Discord ID: 785554241083277312",
