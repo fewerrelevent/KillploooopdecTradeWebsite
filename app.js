@@ -115,16 +115,19 @@
         ? `<div class="card-image"><img src="${item.image}" alt="${item.name}" loading="lazy" /></div>`
         : "";
 
-      // Price
+      // Price — show based on active filter
       let priceHTML = "";
-      if (item.price != null) {
+      const showSell = activeFilter !== "buying"  && item.price    != null;
+      const showBuy  = activeFilter !== "selling" && item.buyPrice != null;
+
+      if (showSell) {
         priceHTML += `<div class="card-price-row">
             <span class="price-label">Price:</span>
             <span class="price-value">${item.price.toLocaleString()}</span>
             <span class="price-unit">${item.priceUnit || "Galleons"}</span>
           </div>`;
       }
-      if (item.buyPrice != null) {
+      if (showBuy) {
         priceHTML += `<div class="card-price-row">
             <span class="price-label">Buying:</span>
             <span class="price-value buy">${item.buyPrice.toLocaleString()}</span>
