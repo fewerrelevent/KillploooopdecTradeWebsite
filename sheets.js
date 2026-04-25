@@ -1,6 +1,6 @@
 /**
  * sheets.js — Fetches and parses item data from a published Google Sheet CSV.
- * No API key required — uses the public "Publish to web" CSV endpoint.
+ * Uses a Cloudflare Pages Function (/proxy) to avoid CORS issues.
  */
 
 function parseCSV(text) {
@@ -34,7 +34,7 @@ function parseCSV(text) {
 
 function rowsToItems(rows) {
   if (rows.length < 2) {
-    console.warn("[Bazaar] CSV parsed but only", rows.length, "row(s) found (need at least 2: header + 1 item)");
+    console.warn("[Bazaar] CSV parsed but only", rows.length, "row(s) found");
     return [];
   }
 
@@ -50,9 +50,6 @@ function rowsToItems(rows) {
   const iPriceUnit  = col("priceunit");
   const iNote       = col("note");
   const iTradeWants = col("tradewants");
-
-  console.log("[Bazaar] Column indices → name:", iName, "type:", iType, "category:", iCategory,
-    "price:", iPrice, "priceUnit:", iPriceUnit, "note:", iNote, "tradeWants:", iTradeWants);
 
   function cell(row, idx) {
     return (idx >= 0 && idx < row.length) ? (row[idx] || "").trim() : "";
@@ -101,47 +98,15 @@ function rowsToItems(rows) {
 }
 
 async function fetchItemsFromSheet(csvUrl) {
-  // Try allorigins first, fall back to corsproxy.io
-  const proxies = [
-    `https://api.allorigins.win/get?url=${encodeURIComponent(csvUrl)}`,
-    `https://corsproxy.io/?${encodeURIComponent(csvUrl)}`,
-  ];
+  // Use our own Cloudflare Pages Function proxy — no CORS issues
+  const proxyUrl = `/proxy?url=${encodeURIComponent(csvUrl)}`;
+  console.log("[Bazaar] Fetching via /proxy");
 
-  let csvText = null;
-  let lastError = null;
+  const response = await fetch(proxyUrl);
+  if (!response.ok) throw new Error(`Proxy error: ${response.status}`);
 
-  // Try allorigins (returns JSON wrapper)
-  try {
-    console.log("[Bazaar] Trying proxy: allorigins");
-    const res = await fetch(proxies[0]);
-    if (res.ok) {
-      const json = await res.json();
-      csvText = json.contents;
-      console.log("[Bazaar] allorigins success, first 200 chars:", csvText?.slice(0, 200));
-    }
-  } catch (e) {
-    lastError = e;
-    console.warn("[Bazaar] allorigins failed:", e.message);
-  }
-
-  // Fall back to corsproxy.io (returns raw CSV)
-  if (!csvText) {
-    try {
-      console.log("[Bazaar] Trying proxy: corsproxy.io");
-      const res = await fetch(proxies[1]);
-      if (res.ok) {
-        csvText = await res.text();
-        console.log("[Bazaar] corsproxy.io success, first 200 chars:", csvText?.slice(0, 200));
-      }
-    } catch (e) {
-      lastError = e;
-      console.warn("[Bazaar] corsproxy.io failed:", e.message);
-    }
-  }
-
-  if (!csvText) {
-    throw new Error("Both CORS proxies failed. " + (lastError?.message || ""));
-  }
+  const csvText = await response.text();
+  console.log("[Bazaar] CSV received, first 200 chars:", csvText.slice(0, 200));
 
   const rows  = parseCSV(csvText);
   const items = rowsToItems(rows);
