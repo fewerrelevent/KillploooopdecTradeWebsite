@@ -360,12 +360,8 @@ main {
   color: var(--muted);
 }
 
-.price-value {
-  font-family: var(--font-heading);
-  font-size: 1.15rem;
-  font-weight: 600;
-  color: var(--gold-light);
-}
+.price-value { font-family: var(--font-heading); font-size: 1.15rem; font-weight: 600; color: var(--gold-light); }
+.price-value.buy { color: var(--green); }
 
 .price-unit {
   font-size: 0.78rem;
