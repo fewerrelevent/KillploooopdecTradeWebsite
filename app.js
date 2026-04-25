@@ -115,9 +115,16 @@
       // Price
       let priceHTML = "";
       if (item.price != null) {
-        priceHTML = `<div class="card-price-row">
-            <span class="price-label">${item.type === "buying" ? "Paying" : "Price"}:</span>
+        priceHTML += `<div class="card-price-row">
+            <span class="price-label">Price:</span>
             <span class="price-value">${item.price.toLocaleString()}</span>
+            <span class="price-unit">${item.priceUnit || "Galleons"}</span>
+          </div>`;
+      }
+      if (item.buyPrice != null) {
+        priceHTML += `<div class="card-price-row">
+            <span class="price-label">Buying:</span>
+            <span class="price-value buy">${item.buyPrice.toLocaleString()}</span>
             <span class="price-unit">${item.priceUnit || "Galleons"}</span>
           </div>`;
       }
@@ -138,18 +145,16 @@
       const noteHTML = item.note ? `<div class="card-note">${item.note}</div>` : "";
 
       card.innerHTML = `
-        ${imageHTML}
-        <div class="card-body">
-          <div class="card-top">
-            <div class="card-name">${item.name}</div>
-            <span class="tag ${item.type}">${tagLabels[item.type]}</span>
-          </div>
-          <div class="card-category">${item.category || "Miscellaneous"}</div>
-          ${priceHTML}
-          ${amountHTML}
-          ${tradeHTML}
-          ${noteHTML}
+        <div class="card-top">
+          <div class="card-name">${item.name}</div>
+          <span class="tag ${item.type}">${tagLabels[item.type]}</span>
         </div>
+        <div class="card-category">${item.category || "Miscellaneous"}</div>
+        ${imageHTML}
+        ${priceHTML}
+        ${amountHTML}
+        ${tradeHTML}
+        ${noteHTML}
       `;
 
       grid.appendChild(card);
