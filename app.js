@@ -1,4 +1,4 @@
-cat > /home/claude/arcane-odyssey-shop-v2/app.js << 'EOF'
+
 /**
  * app.js — The Arcane Bazaar logic
  * Fetches items from Google Sheets, handles filtering, search, modals.
