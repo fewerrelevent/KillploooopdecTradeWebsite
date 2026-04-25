@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Arcane Bazaar</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;600&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Ambient background elements -->
+  <div class="bg-layer">
+    <div class="stars"></div>
+    <div class="ocean-shimmer"></div>
+  </div>
+
+  <!-- Header -->
+  <header>
+    <div class="header-inner">
+      <div class="rune-ornament left">⚓</div>
+      <div class="header-text">
+        <p class="subtitle-top">Arcane Odyssey</p>
+        <h1>The Arcane Bazaar</h1>
+        <p class="subtitle-bottom">Items · Trades · Prices</p>
+      </div>
+      <div class="rune-ornament right">⚓</div>
+    </div>
+    <div class="header-divider">
+      <span class="divider-line"></span>
+      <span class="divider-gem">✦</span>
+      <span class="divider-line"></span>
+    </div>
+  </header>
+
+  <!-- Filter Bar -->
+  <div class="filter-bar">
+    <button class="filter-btn active" data-filter="all">All Items</button>
+    <button class="filter-btn" data-filter="selling">For Sale</button>
+    <button class="filter-btn" data-filter="buying">Buying</button>
+    <button class="filter-btn" data-filter="trading">Trading</button>
+  </div>
+
+  <!-- Search -->
+  <div class="search-wrap">
+    <span class="search-icon">🔍</span>
+    <input type="text" id="searchInput" placeholder="Search items..." />
+  </div>
+
+  <!-- Items Grid -->
+  <main>
+    <div class="grid" id="itemGrid">
+      <!-- Items rendered by JS -->
+    </div>
+    <p class="empty-msg" id="emptyMsg" style="display:none;">No items found.</p>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="divider-line-full"></div>
+    <p>Last updated: <span id="lastUpdated"></span></p>
+    <p class="contact-note">To inquire, reach out in-game or via Discord.</p>
+  </footer>
+
+  <!-- Modal -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal" id="modal">
+      <button class="modal-close" id="modalClose">✕</button>
+      <div class="modal-content" id="modalContent"></div>
+    </div>
+  </div>
+
+  <script src="items.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
