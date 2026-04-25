@@ -37,7 +37,7 @@ const CONFIG = {
   SHEET_CSV_URL: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQRYSZfxfEOoGCfgTxSXoO1wyctXm2UhMgZ4H4VlxLlc8pSqPWslMh4aG2qy9NyQUjCm8RsCPC4dBap/pub?output=csv",
 
   // Your page title / shop name (shown in the header)
-  SHOP_NAME: "Killploooopdec's Arcane Odyssey Store",
+  SHOP_NAME: "Killploooopdec's Wares",
 
   // Subtitle shown under the shop name
   SHOP_SUBTITLE: "Items · Trades · Prices",
