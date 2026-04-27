@@ -104,11 +104,21 @@
     emptyMsg.style.display = "none";
 
     items.forEach((item, i) => {
-      const card = document.createElement("div");
-      card.className = `card ${item.type}`;
-      card.style.animationDelay = `${i * 0.04}s`;
+      const hasBothPrices = item.price != null && item.buyPrice != null;
 
-      const tagLabels = { selling: "For Sale", buying: "Buying", trading: "Trade" };
+      // For dual-price items, tag reflects the active filter tab
+      let tagType  = item.type;
+      let tagLabel = { selling: "For Sale", buying: "Buying", trading: "Trade" }[item.type];
+
+      if (hasBothPrices) {
+        if (activeFilter === "selling") { tagType = "selling"; tagLabel = "For Sale"; }
+        else if (activeFilter === "buying") { tagType = "buying";  tagLabel = "Buying"; }
+        else { tagType = "selling"; tagLabel = "Sale & Buying"; }
+      }
+
+      const card = document.createElement("div");
+      card.className = `card ${tagType}`;
+      card.style.animationDelay = `${i * 0.04}s`;
 
       // Image
       const imageHTML = item.image
@@ -153,7 +163,7 @@
       card.innerHTML = `
         <div class="card-top">
           <div class="card-name">${item.name}</div>
-          <span class="tag ${item.type}">${tagLabels[item.type]}</span>
+          <span class="tag ${tagType}">${tagLabel}</span>
         </div>
         <div class="card-category">${item.category || "Miscellaneous"}</div>
         ${imageHTML}
